@@ -7,11 +7,16 @@ import { parseAddedTime, compareIPAddresses } from "../utils/sorting-helpers";
 import { Device, SortableField } from "../components/types";
 
 const DeviceManagement = () => {
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5); // Default rows per page
-  const [sortField, setSortField] = useState<SortableField>("device"); // Field to sort by
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc"); // Ascending or descending order
+  const [state, setState] = useState({
+    rowsPerPage: 5,
+    sortField: "device" as SortableField,
+    sortOrder: "asc" as "asc" | "desc",
+    currentPage: 1,
+  });
   const [sortedDevices, setSortedDevices] = useState<Device[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const { rowsPerPage, sortField, sortOrder, currentPage } = state;
+
   const startIndex = (currentPage - 1) * rowsPerPage;
   const paginatedDevices = sortedDevices.slice(
     startIndex,
@@ -34,8 +39,8 @@ const DeviceManagement = () => {
         return compareIPAddresses(fieldA, fieldB, sortOrder);
       }
       if (sortField === "lastSession") {
-        const dateA = new Date(fieldA); // Parse the date string
-        const dateB = new Date(fieldB); // Parse the date string
+        const dateA = new Date(fieldA);
+        const dateB = new Date(fieldB);
         return sortOrder === "asc"
           ? dateA.getTime() - dateB.getTime()
           : dateB.getTime() - dateA.getTime();
@@ -45,22 +50,17 @@ const DeviceManagement = () => {
       }
     });
 
-    console.log("sorted data: ----", newSortedDevices);
     setSortedDevices(newSortedDevices);
   }, [sortField, sortOrder]);
 
-  const handleSort = (field: SortableField) => {
-    if (sortField === field) {
-      // If the field is already being sorted, toggle the sort order
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      // Otherwise, set the new field and default to ascending order
-      setSortField(field);
-      setSortOrder("asc");
-    }
+  const handleSort = (field: SortableField, order: "asc" | "desc") => {
+    setState((prev) => ({
+      ...prev,
+      sortField: field,
+      sortOrder: order,
+    }));
   };
-  console.log("sortField", sortField);
-  console.log("sortOrder", sortOrder);
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-4">
@@ -69,21 +69,22 @@ const DeviceManagement = () => {
           Add Device
         </button>
       </div>
-      <DeviceTable
-        devices={paginatedDevices}
-        onSort={handleSort}
-        sortOrder={sortOrder}
-      />
+      <DeviceTable devices={paginatedDevices} onSort={handleSort} />
       <Pagination
         options={options}
         selectedOption={rowsPerPage}
         totalItems={devices.length} // Pass the total number of devices
         currentPage={currentPage} // Pass the current page
         onChange={(option) => {
-          setRowsPerPage(option);
-          setCurrentPage(1); // Reset to first page when rows per page changes
+          setState((prev) => ({
+            ...prev,
+            rowsPerPage: option,
+            currentPage: 1, // Reset to first page when rows per page changes
+          }));
         }}
-        onPageChange={setCurrentPage} // Handler for page change
+        onPageChange={(page) =>
+          setState((prev) => ({ ...prev, currentPage: page }))
+        } // Handler for page change
       />
     </div>
   );
