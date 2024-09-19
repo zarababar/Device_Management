@@ -1,0 +1,32 @@
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-fixed th,
+.table-fixed td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.table-fixed th {
+    background-color: #f2f2f2;
+}
+
+.table-fixed tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-fixed th:nth-child(1),
+.table-fixed th:nth-child(7),
+.table-fixed th:nth-child(8),
+.table-fixed td:nth-child(1),
+.table-fixed td:nth-child(7),
+.table-fixed td:nth-child(8) {
+    width: 50px;
+    text-align: center;
+}

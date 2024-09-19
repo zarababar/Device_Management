@@ -1,6 +1,6 @@
 import React from "react";
 import TableRow from "./TableRow";
-import { Device } from "./types";
+import { Device } from "../types";
 
 interface TableBodyProps {
   devices: Device[];

@@ -5,7 +5,7 @@ import {
   faArrowDown,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { SortableField } from "./types";
+import { SortableField } from "../types";
 
 interface TableHeaderProps {
   onSelectAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,7 +21,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   return (
     <thead>
       <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-        <th className="py-3 px-6 text-left">
+        <th className="py-3 px-6 text-left font-thin font-roboto">
           <input
             type="checkbox"
             className="form-checkbox h-5 w-5"
@@ -79,7 +79,18 @@ const TableHeader: React.FC<TableHeaderProps> = ({
             />
           }
         </th>
-        <th className="py-3 px-6 text-center">Last Session</th>
+        <th
+          className="py-3 px-6 text-center"
+          onClick={() => onSort("lastSession")}
+        >
+          Last Session
+          {
+            <FontAwesomeIcon
+              icon={sortOrder === "asc" ? faArrowUp : faArrowDown}
+              className="ml-2"
+            />
+          }
+        </th>
         <th className="py-3 px-6 text-center"></th>
         <th className="py-3 px-6 text-center"></th>
       </tr>

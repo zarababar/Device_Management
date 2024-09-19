@@ -1,7 +1,7 @@
 // app/components/TableRow.tsx
 
 import React from "react";
-import { Device } from "./types";
+import { Device } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
