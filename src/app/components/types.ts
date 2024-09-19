@@ -6,3 +6,4 @@ export interface Device {
   added: string;
   lastSession: string;
 }
+export type SortableField = keyof Device;
