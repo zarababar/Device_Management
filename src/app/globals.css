@@ -1,3 +1,22 @@
+@import '~@fortawesome/fontawesome-svg-core/styles.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* globals.css or specific component CSS file */
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+  z-index: 10;
+}
+
+.transition-opacity {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.opacity-0:hover .opacity-100 {
+  opacity: 1;
+}
